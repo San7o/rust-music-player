@@ -8,8 +8,10 @@ use crate::app::App;
 use std::fs::ReadDir;
 use std::fs;
 
+// Thisis the main function that renders stuff in the UI
 pub fn render(app: &mut App, f: &mut Frame) {
-
+    
+    // Printing all the paths
     let paths = fs::read_dir("./").unwrap();
     let mut path_string = String::new();
     let mut counter = 0;
@@ -43,6 +45,8 @@ pub fn render(app: &mut App, f: &mut Frame) {
   );
   */ 
 
+
+    // Starting with Ratatui
   f.render_widget(
     Paragraph::new(format!("\n\n{}", path_string))
     .block(

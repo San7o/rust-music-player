@@ -23,7 +23,7 @@ fn play_sound(index: u32, app: &mut App) {
     app.sink.sleep_until_end(); 
 }
 
-
+// The main update function, with all the functions of the application
 pub fn update(app: &mut App, key_event: KeyEvent) {
     
     match key_event.code {
