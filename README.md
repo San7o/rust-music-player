@@ -8,6 +8,6 @@ A simple cli music player written in rust and ratatui
 
 - Scroll through a list of files in a directory
 
-###TODO
+### TODO
 
 - [ ] Play and Pause
