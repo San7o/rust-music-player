@@ -8,7 +8,7 @@ use std::fs::File;
 use std::io::BufReader;
 
 fn play_sound(index: u32, app: &mut App) {
-    let mut paths = fs::read_dir("./").unwrap();
+    let mut paths = fs::read_dir(app.songs_list.path.clone()).unwrap();
     let path = format!("{}", paths.nth(index as usize).unwrap().unwrap().path().display());
 
     // Load a sound from a file, using a path relative to Cargo.toml
@@ -20,7 +20,7 @@ fn play_sound(index: u32, app: &mut App) {
 
     // The sound plays in a separate thread. This call will block the current thread until the sink
     // has finished playing all its queued sounds.
-    app.sink.sleep_until_end(); 
+    //app.sink.sleep_until_end(); 
 }
 
 // The main update function, with all the functions of the application
@@ -37,6 +37,15 @@ pub fn update(app: &mut App, key_event: KeyEvent) {
             if c.is_digit(10) {
                 play_sound(c.to_digit(10).unwrap(), app);
             }
+        },
+        KeyCode::Up => {
+            app.songs_list.prev();
+        },
+        KeyCode::Down=> {
+            app.songs_list.next();
+        },
+        KeyCode::Enter => {
+            play_sound(app.songs_list.index as u32, app)
         },
         _ => {}
     };

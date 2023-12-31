@@ -13,6 +13,9 @@ pub mod tui;
 /// Application updater.
 pub mod update;
 
+/// List struct
+pub mod list;
+
 use app::App;
 use color_eyre::Result;
 use event::{Event, EventHandler};

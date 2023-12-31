@@ -12,39 +12,16 @@ use std::fs;
 pub fn render(app: &mut App, f: &mut Frame) {
     
     // Printing all the paths
-    let paths = fs::read_dir("./").unwrap();
     let mut path_string = String::new();
-    let mut counter = 0;
-    for path in paths {
-        let mut tmp_path = format!("{}", path.unwrap().path().display());
-        tmp_path = (&tmp_path[2..]).to_string();
-        path_string = format!("{}{} - {}\n", path_string, counter, tmp_path);
-        counter += 1;
+    for (i, path) in app.songs_list.list.iter().enumerate() {
+        let tmp_path = path.split("/").last().unwrap();
+        if i == app.songs_list.index {
+            path_string = format!("{}>>{} - {}\n", path_string, i, tmp_path);
+        }
+        else {
+            path_string = format!("{}{} - {}\n", path_string, i, tmp_path);
+        }
     }    
-
-    /*
-    f.render_widget(
-    Paragraph::new(format!(
-      "
-        Press `Esc`, `Ctrl-C` or `q` to stop running.\n\
-        Press `j` and `k` to increment and decrement the counter respectively.\n\
-        Counter: {}
-      ",
-      app.counter
-    ))
-    .block(
-      Block::default()
-        .title("Counter App")
-        .title_alignment(Alignment::Center)
-        .borders(Borders::ALL)
-        .border_type(BorderType::Rounded),
-    )
-    .style(Style::default().fg(Color::Blue))
-    .alignment(Alignment::Center),
-    f.size(),
-  );
-  */ 
-
 
     // Starting with Ratatui
   f.render_widget(

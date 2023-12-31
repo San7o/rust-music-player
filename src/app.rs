@@ -2,11 +2,14 @@ use std::fs::ReadDir;
 use std::fs;
 use rodio::Sink;
 
+use crate::list::ContentList;
+
 /// Application.
 pub struct App {
     /// should the application exit?
     pub should_quit: bool,
     pub sink: Sink,
+    pub songs_list: ContentList,
 }
 
 impl App {
@@ -15,6 +18,8 @@ impl App {
         App {
          should_quit: false,
          sink: s,
+         songs_list: ContentList::from_dir("/home/santo/Music"),
+         //songs_list: ContentList::new(),
         }
    }
 
