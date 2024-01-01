@@ -29,7 +29,12 @@ pub fn render(app: &mut App, f: &mut Frame) {
     let mut rect1 = f.size();
     //rect1.height /= 2;
   f.render_widget(
-    Paragraph::new(format!("\n  Volume: {}%\n\n{}", volume.floor(), path_string))
+    Paragraph::new(format!("\n  Volume: {}%\n\n  Current Directory: {}\n{}",
+                           volume.floor(),
+                           app.songs_list.path,
+                           path_string
+                           )
+                   )
     .block(
       Block::default()
         .title("Rusty Music Player")

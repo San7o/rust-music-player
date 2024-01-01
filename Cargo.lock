@@ -882,6 +882,7 @@ version = "0.1.0"
 dependencies = [
  "color-eyre",
  "crossterm",
+ "log",
  "ratatui",
  "rodio",
  "youtube_dl",

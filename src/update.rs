@@ -8,6 +8,8 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 use crate::list::ContentList;
+use log::debug;
+
 
 fn play_sound(index: u32, app: &mut App) {
 
@@ -93,8 +95,13 @@ pub fn update(app: &mut App, key_event: KeyEvent) {
             play_sound(app.songs_list.index as u32, app);
         },
         KeyCode::Left => {
+            
+            // Only world on linux I suppose
+            let new_path: Vec<&str> = app.songs_list.path.split("/").collect();
+            let sum_path = &new_path[..new_path.len() - 1].join("/");
+            
             app.songs_list = ContentList::from_dir(
-                format!("{}/..", app.songs_list.path).as_str()
+                sum_path
             );
         },
 
