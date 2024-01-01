@@ -23,7 +23,7 @@ impl App {
         }
    }
 
-    /// Handles the tick event of the terminal.
+    // Handles the tick event of the terminal.
     pub fn tick(&self) {}
 
     /// Set should_quit to true to quit the application.

@@ -1,7 +1,7 @@
 use ratatui::{
     prelude::{Alignment, Frame},
     style::{Color, Style},
-    widgets::{Block, BorderType, Borders, Paragraph},
+    widgets::{Block, BorderType, Borders, Paragraph, Padding},
 };
 
 use crate::app::App;
@@ -18,7 +18,7 @@ pub fn render(app: &mut App, f: &mut Frame) {
         if i == app.songs_list.index {
             path_string = format!("{}>> - {}\n", path_string, tmp_path);
         }
-        else {
+        else if i as i32 > app.songs_list.index as i32 - 3 {
             path_string = format!("{}   - {}\n", path_string, tmp_path);
         }
     }    
@@ -26,6 +26,8 @@ pub fn render(app: &mut App, f: &mut Frame) {
     let volume = app.sink.volume() * 100.0;
 
     // Starting with Ratatui
+    let mut rect1 = f.size();
+    //rect1.height /= 2;
   f.render_widget(
     Paragraph::new(format!("\n  Volume: {}%\n\n{}", volume.floor(), path_string))
     .block(
@@ -37,7 +39,36 @@ pub fn render(app: &mut App, f: &mut Frame) {
     )
     .style(Style::default().fg(Color::Blue))
     .alignment(Alignment::Left),
-    f.size(),
+    rect1,
   );
 
+  // Second Widget Test
+  /*
+  let mut rect2 = f.size();
+  rect2.height /= 2;
+  rect2.y = rect2.height;
+ 
+  f.render_widget(
+    Paragraph::new(format!("Ciaoo"))
+    .block(
+       Block::default()
+        .title("Youtube Downloader")
+        .title_alignment(Alignment::Center)
+        .borders(Borders::ALL)
+        .border_type(BorderType::Rounded)
+        /*
+        .padding(Padding::new(
+            0, // left
+            0, // right
+            f.size().height / 2 + 1, // top
+            0, // bottom
+        ))
+        */
+        ,
+      )
+    .style(Style::default().fg(Color::Blue))
+    .alignment(Alignment::Left),
+    rect2,
+  );
+    */
 }

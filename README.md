@@ -12,7 +12,11 @@ For now, you have to change the path in src/app.rs
 
 - `down_arrow` scroll_down
 
-- `space` start / stop
+- `left_arrow` go to previous directory ".."
+
+- `right_arrow` go to directory / play
+
+- `space` play / stop
 
 - `0-9` play the song at index
 
@@ -27,4 +31,4 @@ For now, you have to change the path in src/app.rs
 - [x] Scroll through a list of files in a directory
 - [x] Play and Pause
 - [x] Volume Control
-- [ ] Move between folders
+- [x] Move between folders

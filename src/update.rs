@@ -6,25 +6,38 @@ use std::io::sink;
 use rodio::Decoder;
 use std::fs::File;
 use std::io::BufReader;
+use std::path::Path;
+use crate::list::ContentList;
 
 fn play_sound(index: u32, app: &mut App) {
 
-    // Clears the sink
-    app.sink.stop();
-
     let mut paths = fs::read_dir(app.songs_list.path.clone()).unwrap();
+    
     let path = format!("{}", paths.nth(index as usize).unwrap().unwrap().path().display());
 
-    // Load a sound from a file, using a path relative to Cargo.toml
-    let file = BufReader::new(File::open(path).unwrap());
-    // Decode that sound file into a source
-    let source = Decoder::new(file).unwrap();
 
-    app.sink.append(source);
+    // Chech if this is a folder
+    if Path::new(&path).is_dir() {
+        // Go inside
+        app.songs_list = ContentList::from_dir(&path);
+    }
+    else {
+    
+        // Clears the sink
+        app.sink.stop();
 
-    // The sound plays in a separate thread. This call will block the current thread until the sink
-    // has finished playing all its queued sounds.
-    //app.sink.sleep_until_end(); 
+        // Load a sound from a file, using a path relative to Cargo.toml
+        let file = BufReader::new(File::open(path).unwrap());
+        // Decode that sound file into a source
+        let source = Decoder::new(file).unwrap();
+
+        app.sink.append(source);
+        app.sink.play();
+        // The sound plays in a separate thread. This call will block the current thread until the sink
+        // has finished playing all its queued sounds.
+        //app.sink.sleep_until_end(); 
+    }
+
 }
 
 // The main update function, with all the functions of the application
@@ -76,8 +89,13 @@ pub fn update(app: &mut App, key_event: KeyEvent) {
             app.songs_list.next();
         },
         // Play selected sound
-        KeyCode::Enter => {
-            play_sound(app.songs_list.index as u32, app)
+        KeyCode::Enter | KeyCode::Right => {
+            play_sound(app.songs_list.index as u32, app);
+        },
+        KeyCode::Left => {
+            app.songs_list = ContentList::from_dir(
+                format!("{}/..", app.songs_list.path).as_str()
+            );
         },
 
         _ => {}
