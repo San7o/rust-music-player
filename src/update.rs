@@ -29,11 +29,12 @@ fn play_sound(index: u32, app: &mut App) {
         app.sink.stop();
 
         // Load a sound from a file, using a path relative to Cargo.toml
-        let file = BufReader::new(File::open(path).unwrap());
+        let file = BufReader::new(File::open(path.clone()).unwrap());
         // Decode that sound file into a source
         let source = Decoder::new(file).unwrap();
 
         app.sink.append(source);
+        app.current_playing = path.clone().split("/").last().unwrap().to_owned();
         app.sink.play();
         // The sound plays in a separate thread. This call will block the current thread until the sink
         // has finished playing all its queued sounds.

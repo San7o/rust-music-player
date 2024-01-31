@@ -10,6 +10,7 @@ pub struct App {
     pub should_quit: bool,
     pub sink: Sink,
     pub songs_list: ContentList,
+    pub current_playing: String,
 }
 
 impl App {
@@ -20,6 +21,7 @@ impl App {
          sink: s,
          songs_list: ContentList::from_dir("/home/santo/Music"),
          //songs_list: ContentList::new(),
+         current_playing: String::new(),
         }
    }
 

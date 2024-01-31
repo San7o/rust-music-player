@@ -29,8 +29,9 @@ pub fn render(app: &mut App, f: &mut Frame) {
     let mut rect1 = f.size();
     //rect1.height /= 2;
   f.render_widget(
-    Paragraph::new(format!("\n  Volume: {}%\n\n  Current Directory: {}\n{}",
+    Paragraph::new(format!("\n  Volume: {}% \n  Now Playing: {}\n\n  Current Directory: {}\n{}",
                            volume.floor(),
+                           app.current_playing,
                            app.songs_list.path,
                            path_string
                            )
