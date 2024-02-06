@@ -43,6 +43,34 @@ fn play_sound(index: u32, app: &mut App) {
 
 }
 
+fn append_sound(index: u32, app: &mut App) {
+
+    let mut paths = fs::read_dir(app.songs_list.path.clone()).unwrap();
+    
+    let path = format!("{}", paths.nth(index as usize).unwrap().unwrap().path().display());
+
+
+    // Chech if this is a folder
+    if Path::new(&path).is_dir() {
+        // Go inside
+        app.songs_list = ContentList::from_dir(&path);
+    }
+    else {
+        // Load a sound from a file, using a path relative to Cargo.toml
+        let file = BufReader::new(File::open(path.clone()).unwrap());
+        // Decode that sound file into a source
+        let source = Decoder::new(file).unwrap();
+
+        app.sink.append(source);
+        app.sink.play();
+        // The sound plays in a separate thread. This call will block the current thread until the sink
+        // has finished playing all its queued sounds.
+        //app.sink.sleep_until_end(); 
+    }
+
+}
+
+
 // The main update function, with all the functions of the application
 pub fn update(app: &mut App, key_event: KeyEvent) {
     
@@ -80,6 +108,9 @@ pub fn update(app: &mut App, key_event: KeyEvent) {
                     else {
                         app.sink.set_volume(0.0);
                     }
+                },
+                'a' => {
+                    append_sound(app.songs_list.index as u32, app);
                 },
                 _ => {},
             };

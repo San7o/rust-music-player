@@ -26,6 +26,8 @@ For now, you have to change the path in src/app.rs
 
 - `q` or `esc` to quit
 
+- `a` append the song to the queue 
+
 ### Features
 
 - [x] Scroll through a list of files in a directory
