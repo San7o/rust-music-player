@@ -23,15 +23,23 @@ pub fn render(app: &mut App, f: &mut Frame) {
         }
     }    
 
+    let mut play_deque = String::new();
+    for p in &app.play_deque {
+
+        let tmp_path = p.split("/").last().unwrap();
+        play_deque = format!("{}    {}\n", play_deque, tmp_path);
+    }
+
     let volume = app.sink.volume() * 100.0;
 
     // Starting with Ratatui
     let mut rect1 = f.size();
     //rect1.height /= 2;
   f.render_widget(
-    Paragraph::new(format!("\n  Volume: {}% \n  Now Playing: {}\n\n  Current Directory: {}\n{}",
+    Paragraph::new(format!("\n  Volume: {}% \n  Now Playing:\n   {}\n  Playing Queue:\n{}\n\n  Current Directory: {}\n{}",
                            volume.floor(),
-                           app.current_playing,
+                           app.now_playing,
+                           play_deque,
                            app.songs_list.path,
                            path_string
                            )

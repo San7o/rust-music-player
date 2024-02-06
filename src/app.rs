@@ -3,6 +3,7 @@ use std::fs;
 use rodio::Sink;
 
 use crate::list::ContentList;
+use std::collections::VecDeque;
 
 /// Application.
 pub struct App {
@@ -10,7 +11,8 @@ pub struct App {
     pub should_quit: bool,
     pub sink: Sink,
     pub songs_list: ContentList,
-    pub current_playing: String,
+    pub play_deque: VecDeque<String>,
+    pub now_playing: String,
 }
 
 impl App {
@@ -20,8 +22,8 @@ impl App {
          should_quit: false,
          sink: s,
          songs_list: ContentList::from_dir("/home/santo/Music"),
-         //songs_list: ContentList::new(),
-         current_playing: String::new(),
+         play_deque: VecDeque::new(),
+         now_playing: String::new(),
         }
    }
 
@@ -32,23 +34,17 @@ impl App {
     pub fn quit(&mut self) {
         self.should_quit = true;
     }
+
+    /// memove the front of the queue
+    pub fn pop_play_deque(&mut self) {
+        if !self.play_deque.is_empty() {
+            let _ = self.play_deque.pop_front();
+        }
+    }
+
+    pub fn add_play_deque(&mut self, s: String) {
+        self.play_deque.push_back(s);
+    }
     
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn test_app_increment_counter() {
-        let mut app = App::default();
-        app.increment_counter();
-        assert_eq!(app.counter, 1);
-    }
-
-    #[test]
-    fn test_app_decrement_counter() {
-        let mut app = App::default();
-        app.decrement_counter();
-        assert_eq!(app.counter, 0);
-    }
-}

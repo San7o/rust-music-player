@@ -26,7 +26,9 @@ For now, you have to change the path in src/app.rs
 
 - `q` or `esc` to quit
 
-- `a` append the song to the queue 
+- `s` skip song 
+
+- `r` remove from queue
 
 ### Features
 
@@ -34,3 +36,4 @@ For now, you have to change the path in src/app.rs
 - [x] Play and Pause
 - [x] Volume Control
 - [x] Move between folders
+- [x] Play queue support
